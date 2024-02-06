@@ -1,13 +1,10 @@
-FROM centos:latest
+FROM ubuntu:latest
 MAINTAINER vikashashoke@gmail.com
 
-# Exclude 'appstream' repository from being enabled
-RUN sed -i '/^enabled=1/s/1/0/' /etc/yum.repos.d/CentOS-AppStream.repo
-
-# Install necessary packages
-RUN yum update -y && \
-    yum install -y httpd zip unzip && \
-    yum clean all
+# Update package lists and install necessary packages
+RUN apt-get update && \
+    apt-get install -y apache2 zip unzip && \
+    apt-get clean
 
 # Download and extract website files
 ADD https://www.free-css.com/assets/files/free-css-templates/download/page254/photogenic.zip /var/www/html/
@@ -20,7 +17,7 @@ RUN unzip photogenic.zip && \
 EXPOSE 80
 
 # Start Apache in foreground
-CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
+CMD ["apache2ctl", "-D", "FOREGROUND"]
 
 
 
