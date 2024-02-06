@@ -1,6 +1,9 @@
 FROM centos:latest
 MAINTAINER vikashashoke@gmail.com
 
+# Exclude 'appstream' repository from being enabled
+RUN sed -i '/^enabled=1/s/1/0/' /etc/yum.repos.d/CentOS-AppStream.repo
+
 # Install necessary packages
 RUN yum update -y && \
     yum install -y httpd zip unzip && \
